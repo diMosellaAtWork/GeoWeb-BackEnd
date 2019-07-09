@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>nl.knmi.geoweb</groupId>
 	<artifactId>geoweb-backend</artifactId>
-	<version>0.52.0-SNAPSHOT</version>
+	<version>0.55.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-
 	<name>GeoWeb-BackEnd</name>
 	<description>Backend for GeoWeb</description>
-
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.1.3.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<checkstyle.version>3.0.0</checkstyle.version>
 		<jxr.version>3.0.0</jxr.version>
 		<java.version>1.8</java.version>
+		<spring-boot.version>2.1.3.RELEASE</spring-boot.version>
+		<oauth-auto.version>${spring-boot.version}</oauth-auto.version>
+		<geoweb.messageConverter.version>1.55.1-SNAPSHOT</geoweb.messageConverter.version>
 	</properties>
-
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 		<dependency>
@@ -33,7 +30,6 @@
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -42,7 +38,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -59,8 +54,6 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-actuator</artifactId> 
-			</dependency> -->
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
@@ -71,7 +64,6 @@
 			<artifactId>geojson-jackson</artifactId>
 			<version>1.8</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -80,19 +72,19 @@
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jdk8</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
-
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-json-org</artifactId>
+        </dependency>
 		<dependency>
-			<!-- <groupId>com.github.ernstdevreede</groupId> -->
 			<groupId>com.github.KNMI</groupId>
 			<artifactId>geoweb-aviation-messageconverter</artifactId>
-			<version>1.52.0-SNAPSHOT</version>
+			<version>${geoweb.messageConverter.version}</version>
 		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/com.github.java-json-tools/json-schema-validator -->
 		<dependency>
 			<groupId>com.github.java-json-tools</groupId>
@@ -104,29 +96,31 @@
 			<artifactId>spring-context-support</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.sun.mail</groupId>
-			<artifactId>smtp</artifactId>
-			<version>1.4.5</version>
-		</dependency>
-		<dependency>
 			<groupId>com.github.maartenplieger</groupId>
 			<artifactId>nl.knmi.adaguc.tools</artifactId>
 			<version>1.0.12</version>
 		</dependency>
-
-		<!-- <dependency>
-			<groupId>nl.knmi.adaguc.tools</groupId>
-			<artifactId>adaguc-services-tools</artifactId>
-			<version>1.0.9</version>
-		</dependency>-->
-
-		<!-- <dependency> <groupId>com.github.maartenplieger</groupId> <artifactId>nl.knmi.adaguc.config</artifactId> 
-			<version>1.0.1</version> </dependency> -->
-
+		<!-- oauth2 -->
+		<dependency>
+			<groupId>org.springframework.security.oauth.boot</groupId>
+			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
+			<version>${oauth-auto.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-jose</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
-
 	<build>
-
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -138,7 +132,7 @@
 				<version>2.7</version>
 				<configuration>
 					<delimiters>
-						<delimiter>@</delimiter>
+						<delimiter>^</delimiter>
 					</delimiters>
 					<useDefaultDelimiters>false</useDefaultDelimiters>
 				</configuration>
@@ -204,7 +198,6 @@
 			<id>jitpack.io</id>
 			<url>https://jitpack.io</url>
 		</repository>
-
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
@@ -224,5 +217,4 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-
 </project>
